@@ -2,10 +2,10 @@ package riot
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/KnutZuidema/golio"
 	"github.com/KnutZuidema/golio/api"
+	"github.com/spf13/viper"
 )
 
 type AccountInfo struct{
@@ -17,7 +17,11 @@ type AccountInfo struct{
 }
 
 func FetchAccount(name, tag string) (*AccountInfo, error) {
-	apiKey := os.Getenv("RIOT_API_KEY")
+	apiKey := viper.GetString("riot_api_key")
+
+	if apiKey == "" {
+		return nil, fmt.Errorf("Api Key not found. Check your config.yaml")
+	}
 	client := golio.NewClient(apiKey, golio.WithRegion(api.RegionBrasil))
 
 	// 1. Pegar PUUID e SummonerID
@@ -28,7 +32,7 @@ func FetchAccount(name, tag string) (*AccountInfo, error) {
 
 	summoner, err := client.Riot.LoL.Summoner.GetByPUUID(account.Puuid)
 	if err != nil {
-		return nil, fmt.Errorf("erro ao buscar summoner: %w", err)
+		return nil, fmt.Errorf("failed to fetch summoner: %w", err)
 	}
 
 	// 2. Pegar Elo
