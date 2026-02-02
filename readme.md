@@ -1,4 +1,4 @@
-# League Account Manager
+# League Account Cli
 CLI tool written in Go for managing League of Legends accounts locally.
 It fetches public data (Rank, Level) via the Riot API and detects private data (Blue Essence) via the local LCU client.
 
@@ -25,7 +25,7 @@ Install dependencies:
 go mod tidy
 
 Build the executable:
-go build -o lol-manager.exe
+go build -o league_account_clitool.exe
 
 ## Configuration
 Create a file named config.yaml in the root directory.
@@ -35,20 +35,20 @@ riot_api_key: "RGAPI-YOUR-KEY-HERE"
 
 ## Usage
 Run the executable to open the interactive menu:
-./lol-manager.exe
+./league_account_clitool.exe
 
 ## CLI Commands
 Add Account:
-./lol-manager.exe add "SummonerName" "TagLine"
+./league_account_clitool.exe add "SummonerName" "TagLine"
 
 Example:
-./lol-manager.exe add "Faker" "KR1"
+./league_account_clitool.exe add "Faker" "KR1"
 
 List Accounts:
-./lol-manager.exe list
+./league_account_clitool.exe list
 
 Delete Account:
-./lol-manager.exe delete "SummonerName"
+./league_account_clitool.exe delete "SummonerName"
 
 ## Troubleshooting
 Api Key not found:
