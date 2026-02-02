@@ -8,7 +8,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/somnifobia/league-account-clitool/store"
+	"github.com/somnifobia/league_account_clitool/internal/store"
 )
 
 // deleteCmd represents the delete command
@@ -21,7 +21,7 @@ var deleteCmd = &cobra.Command{
 		if err != nil {
 			fmt.Println("Error:", err)
 		} else {
-			fmt.Println("Account '%s' deleted successfully\n", name)
+			fmt.Printf("Account '%s' deleted successfully\n", name)
 		}
 	},
 }
