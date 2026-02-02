@@ -6,6 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/somnifobia/league_account_clitool/internal/riot"
+	"github.com/somnifobia/league_account_clitool/internal/lcu"
 	"github.com/somnifobia/league_account_clitool/internal/store"
 )
 
@@ -26,11 +27,23 @@ var addCmd = &cobra.Command{
 		}
 
 		fmt.Printf("Account found: Level %d | Elo: %s\n", riotInfo.Level, riotInfo.Rank)
-		fmt.Print("Type the actual BlueEssence amount: ")
+		fmt.Println("Detecting Blue essence on local client...")
+		be, err := lcu.GetWallet()
+		if err == nil {
+			fmt.Printf("Blue Essence detected: %d BE\n", be)
+		} else {
+			fmt.Printf("No Blue Essence detected: (%v)\n", err)
+			fmt.Print("Type the actual Blue Essence amount: ")
 
-		var beInput string
-		fmt.Scanln(&beInput)
-		be, _ := strconv.Atoi(beInput)
+			var beInput string
+			fmt.Scanln(&beInput)
+			var conversionErr error
+			be, conversionErr = strconv.Atoi(beInput)
+			if conversionErr != nil {
+				fmt.Println("Invalid number, saving as 0")
+				be = 0
+			}
+		}
 
 		acc := store.Account{
 			Name:		riotInfo.Name,

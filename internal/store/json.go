@@ -3,6 +3,7 @@ package store
 import (
 	"encoding/json"
 	"os"
+	"fmt"
 )
 
 type Account struct {
@@ -30,6 +31,30 @@ func ListAccounts() ([]Account, error) {
 	err = json.Unmarshal(data, &accounts)
 	return accounts, err
 }
+
+func RemoveAccount(nameToRemove string) error {
+	accounts, err := ListAccounts()
+	if err != nil {
+		return err
+	}
+
+	newAccounts := []Account{}
+	found := false
+
+	for _, acc := range accounts {
+		if acc.Name != nameToRemove {
+			newAccounts = append(newAccounts, acc)
+		} else {
+			found = true
+		}
+	}
+	if !found {
+		return fmt.Errorf("Account '%s' not found", nameToRemove)
+	}
+
+	return saveFile(newAccounts)
+}
+
 
 func saveFile(accounts []Account) error {
 	data, err := json.MarshalIndent(accounts, "", "  ")
