@@ -24,7 +24,6 @@ func FetchAccount(name, tag string) (*AccountInfo, error) {
 	}
 	client := golio.NewClient(apiKey, golio.WithRegion(api.RegionBrasil))
 
-	// 1. Pegar PUUID e SummonerID
 	account, err := client.Riot.Account.GetByRiotID(name, tag)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch account: %w", err)
@@ -35,7 +34,6 @@ func FetchAccount(name, tag string) (*AccountInfo, error) {
 		return nil, fmt.Errorf("failed to fetch summoner: %w", err)
 	}
 
-	// 2. Pegar Elo
 	entries, err := client.Riot.LoL.League.ListBySummoner(summoner.ID)
 	rankString := "Unranked"
 

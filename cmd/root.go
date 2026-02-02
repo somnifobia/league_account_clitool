@@ -8,12 +8,10 @@ import (
 	"github.com/spf13/viper"
 )
 
-
-
 var rootCmd = &cobra.Command{
 	Use:   "league_account_clitool",
+	Short: "League Account CLI Tool",
 	Run: func(cmd *cobra.Command, args []string) {
-        // Se nenhum argumento for passado, abre o menu
         menuCmd.Run(cmd, args)
     },
 }
@@ -23,9 +21,9 @@ func Execute() {
 		os.Exit(1)
 	}
 }
-
 func init() {
 	cobra.OnInitialize(initConfig)
+	cobra.MousetrapHelpText = ""
 
 	rootCmd.PersistentFlags().String("config", "", "config file (default is ./config.yaml)")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
